@@ -1,10 +1,15 @@
 <template>
 	<div width="100%">
 	<div class="row" style="width:100%;">
-		<div class="col col-lg-6">
+		<div class="col col-lg-12">
 			<a href="/api/tree/backup">
 				Download Xml Backup for KeePass
 			</a>
+		</div>
+	</div>
+	<div class="row" style="width:100%;">
+		<div class="col col-lg-12">
+			&nbsp;
 		</div>
 	</div>
 	<div class="row" style="width:100%;">
