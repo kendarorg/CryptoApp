@@ -1,5 +1,6 @@
 ﻿using CryptoApp.Models;
 using CryptoApp.Repos;
+using Ionic.Zip;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -52,16 +53,30 @@ namespace CryptoApp.Controllers
                     return null;
                 }
             });
+
+
+            var bytes = Encoding.UTF8.GetBytes(backup);
+            var ms = new MemoryStream();
+            var fileName = Path.GetFileNameWithoutExtension(file);
+            using (ZipFile zip = new ZipFile())
+            {
+                zip.Password = key;
+                zip.AddEntry(fileName + ".xml", bytes);
+                zip.Save(ms);
+            }
             var result = new HttpResponseMessage
             {
-                Content = new ByteArrayContent(Encoding.UTF8.GetBytes(backup))
+                Content = new ByteArrayContent(ms.ToArray())
             };
+
+            var nowString = DateTime.Now.ToString("MMddyyyyHHmm");
+
             result.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment")
             {
-                FileName = "backup.xml"
+                FileName = nowString + "." + fileName + ".zip"
             };
-            var mime = MimeTypes.GetMimeType("backup.xml");
-            result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(mime);
+
+            result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/zip");
             return result;
         }
 
@@ -125,12 +140,12 @@ namespace CryptoApp.Controllers
             }
             else
             {
-                item =cry.FindById(id);
+                item = cry.FindById(id);
             }
             if (item == null) return null;
             return new Item
             {
-                IsFolder =item is AuthTree,
+                IsFolder = item is AuthTree,
                 Id = item.Id,
                 Title = item.Title
             };
@@ -142,7 +157,7 @@ namespace CryptoApp.Controllers
         {
             var user = _userSvc.CurrentUser();
             var cry = (CryptoService)HttpContext.Current.Session["DATA"];
-            foreach(var item in cry.Find(pattern))
+            foreach (var item in cry.Find(pattern))
             {
                 var iteml = item as AuthLeaf;
                 if (iteml == null) continue;
@@ -184,7 +199,8 @@ namespace CryptoApp.Controllers
                     UserName = iteml.UserName,
                     HasAttachment = iteml.HasAttachment
                 };
-            }else if (itemt != null)
+            }
+            else if (itemt != null)
             {
                 return new ItemData
                 {
@@ -212,7 +228,7 @@ namespace CryptoApp.Controllers
 
         [Route("{id}/password")]
         [HttpPost]
-        public void ChangePassword(PasswordChangeModel changeModel ,String id)
+        public void ChangePassword(PasswordChangeModel changeModel, String id)
         {
             var user = _userSvc.CurrentUser();
             if (changeModel.New != changeModel.NewRepeat) throw new Exception("Not matching passwords");
@@ -228,14 +244,14 @@ namespace CryptoApp.Controllers
 
         [Route("{id}/move/{newParent}")]
         [HttpPut]
-        public void ChangeParent(String id,String newParent)
+        public void ChangeParent(String id, String newParent)
         {
             var user = _userSvc.CurrentUser();
             var cry = (CryptoService)HttpContext.Current.Session["DATA"];
             var file = (String)HttpContext.Current.Session["FILE"];
             AuthBase toUpdate = cry.FindById(id);
             var parentItem = cry.FindById(newParent) as AuthTree;
-            if(toUpdate is AuthLeaf && parentItem == cry.Root)
+            if (toUpdate is AuthLeaf && parentItem == cry.Root)
             {
                 throw new Exception("Cannot move leaves to root!");
             }
@@ -317,7 +333,7 @@ namespace CryptoApp.Controllers
             AuthTree toUpdatet = toUpdate as AuthTree;
             AuthLeaf toUpdatel = toUpdate as AuthLeaf;
 
-            if (parentItem==cry.Root && toUpdatet == null)
+            if (parentItem == cry.Root && toUpdatet == null)
             {
                 throw new Exception("ONLY FOLDERS CAN BE ADDED TO ROOT!!");
             }
@@ -327,11 +343,11 @@ namespace CryptoApp.Controllers
                 parentItem.Children.Add(toUpdate);
                 toUpdate.Parent = parentItem;
             }
-            if (toUpdatet!=null)
+            if (toUpdatet != null)
             {
                 toUpdatet.Title = item.Title;
             }
-            else if(toUpdatel!=null)
+            else if (toUpdatel != null)
             {
                 toUpdatel.Notes = item.Notes;
                 toUpdatel.UserName = item.UserName;
