@@ -1,5 +1,17 @@
 # CryptoApp
+
 Front End to store KeePass exported xml files.
+
+## Functionalities
+
+* Manage multiple users passwords
+* Upload/download standard keepass xml files
+* Handle password grouping
+* Attach a file to a password
+* Administrator users can handle other users access but not to their password files
+* The password decrypting passwords are not stored
+* The login password are hashed
+* Multiple files for each user
 
 ## Build
 
@@ -19,5 +31,7 @@ Front End to store KeePass exported xml files.
 	* Modify the web.config <add key="Admin" value="[THEROOTUSER];[THEENCODEDPASSWORD]" />
 * Import the xml export from KeePass
 * To update keepass, import with the KeePass XML 1 file format
+
+
 
 
