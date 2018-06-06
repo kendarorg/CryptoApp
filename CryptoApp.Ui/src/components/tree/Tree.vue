@@ -1,4 +1,5 @@
 <template>
+	<div width="100%">
 	<div class="row" style="width:100%;">
 		<div class="col col-lg-6">
 			<a href="/api/tree/backup">
@@ -19,6 +20,7 @@
 			<component :is="currentView" 
 				:parentData="model.nodeId" :toMove="model.toMoveId" :action="model.action"></component>
 		</div>
+	</div>
 	</div>
 </template>
 <script>
