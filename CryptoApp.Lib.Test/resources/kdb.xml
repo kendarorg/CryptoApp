@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<pwlist>
+<pwentry>
+	<group tree="General">eMail</group>
+	<title>Urfid</title>
+	<username>aaaa@libero.it</username>
+	<url>http://www.libero.it</url>
+	<password>XXX</password>
+	<notes></notes>
+	<uuid>3f5b7eaa4cb84e8297e9c8a5bb058f0d</uuid>
+	<image>0</image>
+	<creationtime>2999-12-28T23:59:59</creationtime>
+	<lastmodtime>2999-12-28T23:59:59</lastmodtime>
+	<lastaccesstime>2999-12-28T23:59:59</lastaccesstime>
+	<expiretime expires="false">2999-12-28T23:59:59</expiretime>
+</pwentry>
+</pwlist>
