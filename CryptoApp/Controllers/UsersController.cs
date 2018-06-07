@@ -17,6 +17,8 @@ namespace CryptoApp.Controllers
         private AttemptRepository _attempts = new AttemptRepository();
         private UserRepository _users = new UserRepository();
         private LoginService _login = new LoginService();
+        private AttachRepository _attach = new AttachRepository();
+        private FileRepository _files = new FileRepository();
 
         [Route("")]
         [HttpGet]
@@ -122,6 +124,14 @@ namespace CryptoApp.Controllers
             if (!current.IsAdmin || id == current.Id.ToString())
             {
                 throw new Exception();
+            }
+            foreach(var file in _files.GetAllByUser(current.Id).ToList())
+            {   
+                _files.Delete(file.Id);
+            }
+            foreach (var attach in _attach.GetAllByUser(current.Id).ToList())
+            {
+                _attach.DeleteFile(attach.Id);
             }
             _users.Delete(Guid.Parse(id));
         }

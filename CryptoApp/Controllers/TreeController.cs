@@ -89,9 +89,9 @@ namespace CryptoApp.Controllers
         public TreeController()
         {
             _attach = new AttachRepository();
+            _files = new FileRepository();
             _userSvc = new LoginService();
             _users = new UserRepository();
-            _files = new FileRepository();
             _crypt = new StringCipher();
         }
         private void Save()

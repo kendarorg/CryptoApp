@@ -99,6 +99,17 @@ namespace CryptoApp.Repos
                 yield return user;
             }
         }
+        public IEnumerable<Attach> GetAllByUser(Guid userId)
+        {
+            foreach (var user in ExecuteList<Attach>("SELECT ID,NAME,USERID FROM ATTACH WHERE USERID=@USERID",
+                 new Dictionary<String, Object>
+                 {
+                        {"@USERID",userId }
+                 }))
+            {
+                yield return user;
+            }
+        }
 
         public Attach GetByIdUser(Guid attahcId, Guid userId,Guid fileId)
         {
