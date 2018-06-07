@@ -12,6 +12,7 @@ Front End to store KeePass exported xml files.
 * The password decrypting passwords are not stored
 * The login password are hashed
 * Multiple files for each user
+* Backup of keepass xml with AES256 encryption
 
 ## Build
 
