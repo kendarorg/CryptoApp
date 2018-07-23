@@ -78,16 +78,10 @@
 				</div> 
 				<div v-if="!isEditable" class="form-group">
 					<a v-if="!isImage" id="attachment" v-bind:href="'/api/attach/'+ model.id">
-						<label for="attachment">Attachment</label>
-						{{model.hasAttachment}}
+						<label v-if='model.hasAttachment' for="attachment">Attachment</label>
 					</a>
 					<input v-if="isImage" class="form-control" type="button" value="Show Image" @click="showImage()">
-					
-					
-				</div>	
-				<div v-if="!isEditable" class="form-group">
-					
-				</div>	
+				</div>
 				<div v-if="!isEditable" class="form-group">
 					<input class="form-control" type="button" value="Upload File" @click="uploadAttachment()">
 				</div>	

@@ -14,6 +14,10 @@ Front End to store KeePass exported xml files.
 * Multiple files for each user
 * Backup of keepass xml with AES256 encryption
 
+## Usage
+
+
+
 ## Build
 
 * Go into the ui folder (CryptoApp.Ui)
